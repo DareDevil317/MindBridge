@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings — MindBridge</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand-mark" style="justify-content:flex-start;">
+                <div class="logo-icon" style="width:34px;height:34px;font-size:1rem;"><img src="images/logo.png" alt="MindBridge logo" style="width:100%;height:100%;object-fit:contain;"></div><span style="font-size:1.1rem;">MindBridge</span></div>
+            <nav>
+                <a class="nav-link" href="dashboard.html">🏠 Home</a>
+                <a class="nav-link" href="chat.html">💬 Chat</a>
+                <a class="nav-link" href="stress-check.html">📝 Stress Check</a>
+                <a class="nav-link" href="progress.html">📈 Progress</a>
+                <a class="nav-link" href="wellness-plan.html">🌿 Wellness Plan</a>
+                <a class="nav-link" href="exercise.html">🏃 Exercise</a>
+                <a class="nav-link" href="professionals.html">🩺 Professionals</a>
+                <a class="nav-link" href="appointment.html">📅 Appointments</a>
+                <a class="nav-link" href="profile.html">👤 Profile</a>
+                <a class="nav-link active" href="settings.html">⚙️ Settings</a>
+            </nav>
+            <button class="btn btn-secondary btn-block" onclick="logout()">Log out</button>
+        </aside>
+
+        <div style="flex:1;">
+            <div class="topbar-mobile">
+                <div class="brand-mark" style="margin:0;">
+                    <div class="logo-icon" style="width:30px;height:30px;font-size:0.9rem;"><img src="images/logo.png" alt="MindBridge logo" style="width:100%;height:100%;object-fit:contain;"></div><span>MindBridge</span></div>
+                <button class="btn btn-secondary" onclick="logout()">Log out</button>
+            </div>
+
+            <main class="main-content">
+                <div class="dashboard-heading">
+                    <div>
+                        <h1>Settings</h1>
+                        <p>Personalize your support and accessibility preferences.</p>
+                    </div>
+                    <button class="btn btn-secondary theme-toggle" type="button" data-theme-toggle aria-pressed="false">🌙 Dark mode</button>
+                </div>
+
+                <div class="card" style="margin-bottom:16px;">
+                    <h3>Emergency contacts</h3>
+                    <p>Save someone you trust and a medical helpline for quick calling from your dashboard. These details stay in this browser on this device.</p>
+                    <form id="emergencyContactForm">
+                        <div class="grid grid-2">
+                            <div class="field">
+                                <label for="emergencyContactName">Trusted person's name</label>
+                                <input type="text" id="emergencyContactName" autocomplete="name" maxlength="80" placeholder="e.g. Alex">
+                            </div>
+                            <div class="field">
+                                <label for="emergencyContactPhone">Trusted person's phone</label>
+                                <input type="tel" id="emergencyContactPhone" autocomplete="tel" maxlength="30" pattern="[0-9+() .-]{5,30}" title="Enter a valid phone number with at least 5 digits." placeholder="+91 98765 43210">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="medicalHelplinePhone">Medical / mental health helpline number</label>
+                            <input type="tel" id="medicalHelplinePhone" autocomplete="tel" required maxlength="30" pattern="[0-9+() .-]{5,30}" title="Enter a valid phone number with at least 5 digits.">
+                            <small class="hint">Default: Tele-MANAS India, 14416. If you are elsewhere, replace it with a verified local service number.</small>
+                        </div>
+                        <div id="emergencyContactStatus" class="alert alert-success hidden" role="status"></div>
+                        <button type="submit" class="btn btn-primary">Save emergency details</button>
+                    </form>
+                </div>
+
+                <div class="card" style="margin-bottom:16px;">
+                    <h3>Share my location</h3>
+                    <p>Sends your current location to your trusted person. Nothing is shared until you tap a send button, and MindBridge's servers never see your location.</p>
+                    <button type="button" class="btn btn-primary" id="shareLocationBtn">📍 Get my location</button>
+                    <p class="muted" id="shareStatus" style="margin-top:10px;"></p>
+                    <div id="shareActions" class="hidden" style="display:flex; flex-wrap:wrap; gap:10px;">
+                        <a id="shareWhatsApp" class="btn btn-secondary" href="#" target="_blank" rel="noopener">Send on WhatsApp</a>
+                        <a id="shareSms" class="btn btn-secondary" href="#">Send as SMS</a>
+                        <a id="shareMap" class="btn btn-secondary" href="#" target="_blank" rel="noopener">Open in Maps</a>
+                        <button type="button" class="btn btn-secondary" id="shareCopy">Copy message</button>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom:16px;">
+                    <h3>Notifications</h3>
+                    <p>Browser notifications for check-ins, exercise, and appointments.</p>
+                    <button class="btn btn-secondary" id="notifBtn">Request Notification Permission</button>
+                    <p class="muted" id="notifStatus"></p>
+                </div>
+
+                <div class="card" style="margin-bottom:16px;">
+                    <h3>Camera Permission</h3>
+                    <p>Used only for the optional face/wellness-signal check-in. Nothing is recorded without your action.</p>
+                    <a href="camera-check.html" class="btn btn-secondary">Manage Camera Check</a>
+                </div>
+
+                <div class="card" style="margin-bottom:16px;">
+                    <h3>Privacy &amp; Security</h3>
+                    <p><a href="terms.html">View Terms &amp; Privacy Policy</a></p>
+                </div>
+
+                <div class="card" style="margin-bottom:16px;">
+                    <h3>Help &amp; Support</h3>
+                    <p>This is a student prototype project. For real support, please use the Professional Support or Emergency Support pages.</p>
+                    <a href="emergency.html" class="btn btn-danger">Emergency Support</a>
+                </div>
+
+                <div class="card">
+                    <h3>Data Management</h3>
+                    <p>Deleting your data removes your locally-stored session on this device (full account deletion requires a backend admin action in this prototype).</p>
+                    <button class="btn btn-danger" id="deleteDataBtn">Delete My Local Data</button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <ul>
+            <li><a href="dashboard.html">🏠<br>Home</a></li>
+            <li><a href="chat.html">💬<br>Chat</a></li>
+            <li><a href="progress.html">📈<br>Progress</a></li>
+            <li><a href="professionals.html">🩺<br>Care</a></li>
+            <li><a href="profile.html">👤<br>Profile</a></li>
+        </ul>
+    </nav>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/theme.js"></script>
+    <script>
+        requireAuthOrRedirect();
+
+        const CONTACT_NAME_KEY = "mb_emergency_contact_name";
+        const CONTACT_PHONE_KEY = "mb_emergency_contact_phone";
+        const HELPLINE_PHONE_KEY = "mb_medical_helpline_phone";
+        const DEFAULT_HELPLINE_PHONE = "14416";
+
+        document.getElementById("emergencyContactName").value = localStorage.getItem(CONTACT_NAME_KEY) || "";
+        document.getElementById("emergencyContactPhone").value = localStorage.getItem(CONTACT_PHONE_KEY) || "";
+        document.getElementById("medicalHelplinePhone").value = localStorage.getItem(HELPLINE_PHONE_KEY) || DEFAULT_HELPLINE_PHONE;
+
+        document.getElementById("emergencyContactForm").addEventListener("submit", (event) => {
+            event.preventDefault();
+            const name = document.getElementById("emergencyContactName").value.trim();
+            const phone = document.getElementById("emergencyContactPhone").value.trim();
+            const helpline = document.getElementById("medicalHelplinePhone").value.trim();
+            const status = document.getElementById("emergencyContactStatus");
+
+            if (Boolean(name) !== Boolean(phone)) {
+                status.className = "alert alert-error";
+                status.textContent = "Enter both the trusted person's name and phone number, or leave both blank.";
+                status.classList.remove("hidden");
+                return;
+            }
+
+            const validPhone = (value) => /^[0-9+() .-]{5,30}$/.test(value) && value.replace(/\D/g, "").length >= 5;
+            if (phone && !validPhone(phone)) {
+                status.className = "alert alert-error";
+                status.textContent = "Enter a valid trusted person's phone number.";
+                status.classList.remove("hidden");
+                return;
+            }
+
+            if (!validPhone(helpline)) {
+                status.className = "alert alert-error";
+                status.textContent = "Enter a valid helpline phone number.";
+                status.classList.remove("hidden");
+                return;
+            }
+
+            if (name) {
+                localStorage.setItem(CONTACT_NAME_KEY, name);
+                localStorage.setItem(CONTACT_PHONE_KEY, phone);
+            } else {
+                localStorage.removeItem(CONTACT_NAME_KEY);
+                localStorage.removeItem(CONTACT_PHONE_KEY);
+            }
+            localStorage.setItem(HELPLINE_PHONE_KEY, helpline);
+            status.className = "alert alert-success";
+            status.textContent = "Emergency details saved on this device.";
+            status.classList.remove("hidden");
+        });
+
+        document.getElementById("notifBtn").addEventListener("click", async() => {
+            const status = document.getElementById("notifStatus");
+            if (!("Notification" in window)) {
+                status.textContent = "Notifications aren't supported in this browser.";
+                return;
+            }
+            const permission = await Notification.requestPermission();
+            status.textContent = permission === "granted" ? "Notifications enabled." : "Notifications not enabled.";
+        });
+
+        document.getElementById("deleteDataBtn").addEventListener("click", () => {
+            if (confirm("This will log you out and clear locally-stored session data on this device. Continue?")) {
+                clearSession();
+                localStorage.removeItem("mb_terms_accepted");
+                window.location.href = "index.html";
+            }
+        });
+
+        /* ---- Share my location ---- */
+        const shareBtn = document.getElementById("shareLocationBtn");
+        const shareStatus = document.getElementById("shareStatus");
+        const shareActions = document.getElementById("shareActions");
+        const shareWhatsApp = document.getElementById("shareWhatsApp");
+        const shareSms = document.getElementById("shareSms");
+        const shareMap = document.getElementById("shareMap");
+        const shareCopy = document.getElementById("shareCopy");
+        let shareMessage = "";
+
+        function whatsappNumber(phone) {
+            let digits = phone.replace(/\D/g, "");
+            if (digits.length === 10) digits = "91" + digits; // assumes India when no country code is saved
+            return digits;
+        }
+
+        shareBtn.addEventListener("click", () => {
+            const contactName = localStorage.getItem(CONTACT_NAME_KEY) || "";
+            const contactPhone = localStorage.getItem(CONTACT_PHONE_KEY) || "";
+
+            if (!navigator.geolocation) {
+                shareStatus.textContent = "Location isn't supported in this browser.";
+                return;
+            }
+            shareBtn.disabled = true;
+            shareStatus.textContent = "Getting your location... please allow the browser permission prompt.";
+            shareActions.classList.add("hidden");
+
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const {
+                        latitude,
+                        longitude,
+                        accuracy
+                    } = pos.coords;
+                    const acc = Math.round(accuracy);
+                    const mapUrl = `https://www.google.com/maps?q=${latitude.toFixed(6)},${longitude.toFixed(6)}`;
+                    shareMessage = `I need help right now. My current location (accuracy about ${acc} m): ${mapUrl} - sent from MindBridge`;
+                    const encoded = encodeURIComponent(shareMessage);
+
+                    shareMap.href = mapUrl;
+                    if (contactPhone) {
+                        shareWhatsApp.href = `https://wa.me/${whatsappNumber(contactPhone)}?text=${encoded}`;
+                        shareSms.href = `sms:${contactPhone.replace(/[^\d+]/g, "")}?body=${encoded}`;
+                        shareWhatsApp.classList.remove("hidden");
+                        shareSms.classList.remove("hidden");
+                        shareStatus.textContent = `Location found (accuracy about ${acc} m). Choose how to send it to ${contactName || "your trusted person"}.`;
+                    } else {
+                        shareWhatsApp.classList.add("hidden");
+                        shareSms.classList.add("hidden");
+                        shareStatus.textContent = `Location found (accuracy about ${acc} m). Save a trusted person above, or copy the message and send it yourself.`;
+                    }
+                    shareActions.classList.remove("hidden");
+                    shareBtn.disabled = false;
+                    shareBtn.textContent = "📍 Refresh my location";
+                },
+                (err) => {
+                    const reasons = {
+                        1: "Location permission was denied. Allow it in the browser's address bar and try again.",
+                        2: "Your location couldn't be determined. Check that location is turned on for this device.",
+                        3: "Getting your location took too long. Please try again.",
+                    };
+                    shareStatus.textContent = reasons[err.code] || "Couldn't get your location.";
+                    shareBtn.disabled = false;
+                }, {
+                    enableHighAccuracy: true,
+                    timeout: 15000,
+                    maximumAge: 0
+                }
+            );
+        });
+
+        shareCopy.addEventListener("click", async() => {
+            try {
+                await navigator.clipboard.writeText(shareMessage);
+                shareStatus.textContent = "Message copied. Paste it into any chat app.";
+            } catch (_) {
+                shareStatus.textContent = shareMessage;
+            }
+        });
+    </script>
+</body>
+
+</html>

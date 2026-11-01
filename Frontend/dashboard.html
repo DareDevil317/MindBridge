@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — MindBridge</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/chart.umd.min.js"></script>
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand-mark" style="justify-content:flex-start;">
+                <div class="logo-icon" style="width:34px;height:34px;font-size:1rem;"><img src="images/logo.png" alt="MindBridge logo" style="width:100%;height:100%;object-fit:contain;"></div>
+                <span style="font-size:1.1rem;">MindBridge</span>
+            </div>
+            <nav>
+                <a class="nav-link active" href="dashboard.html">🏠 Home</a>
+                <a class="nav-link" href="chat.html">💬 Chat</a>
+                <a class="nav-link" href="stress-check.html">📝 Stress Check</a>
+                <a class="nav-link" href="progress.html">📈 Progress</a>
+                <a class="nav-link" href="wellness-plan.html">🌿 Wellness Plan</a>
+                <a class="nav-link" href="exercise.html">🏃 Exercise</a>
+                <a class="nav-link" href="professionals.html">🩺 Professionals</a>
+                <a class="nav-link" href="appointment.html">📅 Appointments</a>
+                <a class="nav-link" href="profile.html">👤 Profile</a>
+                <a class="nav-link" href="settings.html">⚙️ Settings</a>
+            </nav>
+            <button class="btn btn-secondary btn-block" onclick="logout()">Log out</button>
+        </aside>
+
+        <div style="flex:1;">
+            <div class="topbar-mobile">
+                <div class="brand-mark" style="margin:0;">
+                    <div class="logo-icon" style="width:30px;height:30px;font-size:0.9rem;"><img src="images/logo.png" alt="MindBridge logo" style="width:100%;height:100%;object-fit:contain;"></div><span>MindBridge</span></div>
+                <button class="btn btn-secondary" onclick="logout()">Log out</button>
+            </div>
+
+            <main class="main-content">
+                <div class="dashboard-heading">
+                    <div>
+                        <h1 id="greeting">Good day 👋</h1>
+                        <p>How are you feeling today?</p>
+                    </div>
+                    <div class="dashboard-controls">
+                        <button class="btn btn-secondary theme-toggle" type="button" data-theme-toggle aria-pressed="false">🌙 Dark mode</button>
+                        <a href="tel:112" class="btn btn-danger">📞 Emergency · 112</a>
+                    </div>
+                </div>
+
+                <div class="dashboard-hero">
+                    <h2>Your wellbeing, one step at a time</h2>
+                    <p>Check in with yourself, find support, and build healthy routines at your own pace.</p>
+                    <a href="stress-check.html" class="btn btn-primary">Start today's check-in</a>
+                </div>
+
+                <div class="grid grid-4" style="margin:20px 0 28px;">
+                    <div class="stat-pill"><span class="stat-value" id="statWellness">—</span><span class="stat-label">Wellness indicator</span></div>
+                    <div class="stat-pill"><span class="stat-value" id="statMood">—</span><span class="stat-label">Latest stress level</span></div>
+                    <div class="stat-pill"><span class="stat-value" id="statStreak">—</span><span class="stat-label">Check-in streak</span></div>
+                    <div class="stat-pill"><span class="stat-value" id="statExercise">—</span><span class="stat-label">Exercise this week</span></div>
+                </div>
+
+                <div class="card dashboard-emergency" style="margin-bottom:28px;">
+                    <h3>Emergency support</h3>
+                    <p>For immediate danger, call your local emergency service. In India, call 112.</p>
+                    <div class="emergency-actions">
+                        <a href="tel:112" class="btn btn-danger">📞 Call emergency services · 112</a>
+                        <a href="#" class="btn btn-secondary hidden" data-emergency-contact-call data-emergency-contact-dashboard>Call saved contact</a>
+                        <a href="#" class="btn btn-secondary" data-medical-helpline>Call medical helpline (14416)</a>
+                        <a href="emergency.html" class="btn btn-secondary">More support options</a>
+                    </div>
+                    <p class="muted" data-emergency-contact-empty style="margin:12px 0 0;">Add a trusted person in <a href="settings.html">Settings</a> for a one-tap call.</p>
+                </div>
+
+                <div class="card" style="margin-bottom:28px;">
+                    <h3>Today's Wellness Reminder</h3>
+                    <p>20-minute activity — movement can be part of a healthy routine.</p>
+                    <a href="exercise.html" class="btn btn-accent">Start Exercise</a>
+                </div>
+
+                <h2 class="dashboard-section-title">Quick actions</h2>
+                <div class="grid grid-3" style="margin-bottom:30px;">
+                    <a class="feature-card" href="stress-check.html">
+                        <div class="icon-badge">📝</div>
+                        <h3>Daily Check-in</h3>
+                        <p>Take a quick, confidential stress check-in.</p>
+                    </a>
+                    <a class="feature-card" href="chat.html">
+                        <div class="icon-badge">💬</div>
+                        <h3>AI Chat</h3>
+                        <p>Talk through what's on your mind with MindBridge AI.</p>
+                    </a>
+                    <a class="feature-card" href="voice-chat.html">
+                        <div class="icon-badge">🎙️</div>
+                        <h3>Voice Chat</h3>
+                        <p>Prefer speaking? Try the voice assistant.</p>
+                    </a>
+                    <a class="feature-card" href="wellness-plan.html">
+                        <div class="icon-badge">🌿</div>
+                        <h3>Wellness Plan</h3>
+                        <p>Your personalized plan for today.</p>
+                    </a>
+                    <a class="feature-card" href="exercise.html">
+                        <div class="icon-badge">🏃</div>
+                        <h3>Exercise Reminder</h3>
+                        <p>Set and track light daily movement.</p>
+                    </a>
+                    <a class="feature-card" href="professionals.html">
+                        <div class="icon-badge">🩺</div>
+                        <h3>Professional Support</h3>
+                        <p>Find and book licensed professionals.</p>
+                    </a>
+                </div>
+
+                <h2 class="dashboard-section-title">Your trend (last 7 check-ins)</h2>
+                <div class="card">
+                    <canvas id="trendChart" height="90"></canvas>
+                    <p id="chartEmpty" class="muted hidden" style="margin-top:12px;">No check-ins yet — <a href="stress-check.html">take your first check-in</a> to see a trend here.</p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <ul>
+            <li><a class="active" href="dashboard.html">🏠<br>Home</a></li>
+            <li><a href="chat.html">💬<br>Chat</a></li>
+            <li><a href="progress.html">📈<br>Progress</a></li>
+            <li><a href="professionals.html">🩺<br>Care</a></li>
+            <li><a href="profile.html">👤<br>Profile</a></li>
+        </ul>
+    </nav>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/emergency.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>

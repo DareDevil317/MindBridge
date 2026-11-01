@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stress Check — MindBridge</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/theme.js"></script>
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand-mark" style="justify-content:flex-start;">
+                <div class="logo-icon" style="width:34px;height:34px;font-size:1rem;"><img src="images/logo.png" alt="MindBridge logo" style="width:100%;height:100%;object-fit:contain;"></div><span style="font-size:1.1rem;">MindBridge</span></div>
+            <nav>
+                <a class="nav-link" href="dashboard.html">🏠 Home</a>
+                <a class="nav-link" href="chat.html">💬 Chat</a>
+                <a class="nav-link active" href="stress-check.html">📝 Stress Check</a>
+                <a class="nav-link" href="progress.html">📈 Progress</a>
+                <a class="nav-link" href="wellness-plan.html">🌿 Wellness Plan</a>
+                <a class="nav-link" href="exercise.html">🏃 Exercise</a>
+                <a class="nav-link" href="professionals.html">🩺 Professionals</a>
+                <a class="nav-link" href="appointment.html">📅 Appointments</a>
+                <a class="nav-link" href="profile.html">👤 Profile</a>
+                <a class="nav-link" href="settings.html">⚙️ Settings</a>
+            </nav>
+            <button class="btn btn-secondary btn-block" onclick="logout()">Log out</button>
+        </aside>
+
+        <div style="flex:1;">
+            <div class="topbar-mobile">
+                <div class="brand-mark" style="margin:0;">
+                    <div class="logo-icon" style="width:30px;height:30px;font-size:0.9rem;"><img src="images/logo.png" alt="MindBridge logo" style="width:100%;height:100%;object-fit:contain;"></div><span>MindBridge</span></div>
+                <button class="btn btn-secondary" onclick="logout()">Log out</button>
+            </div>
+
+            <main class="main-content">
+                <div id="questionnaireView">
+                    <h1>Daily Stress Check</h1>
+                    <p>A few quick questions. This is not a medical assessment — it helps generate your personal MindBridge Wellness Indicator.</p>
+
+                    <form id="checkinForm" class="card" novalidate>
+                        <div class="field">
+                            <label>1. How stressed do you feel right now? <span id="stressLevelVal">3</span>/5</label>
+                            <div class="slider-row"><input type="range" id="stress_level" min="1" max="5" value="3"></div>
+                        </div>
+
+                        <div class="field">
+                            <label for="sleep_quality">2. How well did you sleep?</label>
+                            <select id="sleep_quality">
+              <option>Poor</option><option>Fair</option><option selected>Good</option><option>Very Good</option>
+            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="overwhelmed">3. Do you feel overwhelmed?</label>
+                            <select id="overwhelmed">
+              <option>Yes</option><option selected>Sometimes</option><option>No</option>
+            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="energy_level">4. How is your energy level?</label>
+                            <select id="energy_level">
+              <option>Very Low</option><option>Low</option><option selected>Normal</option><option>High</option>
+            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="stress_cause">5. What is causing most of your stress?</label>
+                            <select id="stress_cause">
+              <option>Studies</option><option>Work</option><option>Relationships</option>
+              <option>Financial</option><option>Health</option><option>Family</option><option>Other</option>
+            </select>
+                        </div>
+
+                        <div class="field">
+                            <label>6. How difficult is it to concentrate? <span id="concVal">3</span>/5</label>
+                            <div class="slider-row"><input type="range" id="concentration_difficulty" min="1" max="5" value="3"></div>
+                        </div>
+
+                        <div class="field">
+                            <label for="stress_frequency">7. How often have you felt stressed recently?</label>
+                            <select id="stress_frequency">
+              <option>Rarely</option><option selected>Sometimes</option><option>Often</option><option>Almost every day</option>
+            </select>
+                        </div>
+
+                        <div id="formAlert" class="alert alert-error hidden"></div>
+                        <button type="submit" class="btn btn-primary btn-lg">See My Wellness Indicator</button>
+                    </form>
+                </div>
+
+                <div id="resultView" class="hidden">
+                    <h1>Your Result</h1>
+                    <div class="card text-center">
+                        <p class="muted" style="margin-bottom:2px;">MindBridge Wellness Indicator</p>
+                        <div style="font-family:var(--font-display); font-size:3rem; font-weight:700;" id="resultScore">—</div>
+                        <span class="badge" id="resultBand">—</span>
+                        <p style="margin-top:16px;" id="resultMessage"></p>
+                        <p class="muted" style="font-size:0.82rem;">This is a non-medical, self-reported indicator — not a diagnosis.</p>
+                    </div>
+
+                    <div id="supportOptions" class="hidden" style="margin-top:24px;">
+                        <h2>Would you like additional support?</h2>
+                        <div class="grid grid-4">
+                            <a href="chat.html" class="feature-card">
+                                <div class="icon-badge">💬</div>
+                                <h3>Talk to AI</h3>
+                                <p>Chat it through now.</p>
+                            </a>
+                            <a href="exercise.html" class="feature-card">
+                                <div class="icon-badge">🧘</div>
+                                <h3>Calming exercise</h3>
+                                <p>Try a short activity.</p>
+                            </a>
+                            <a href="professionals.html" class="feature-card">
+                                <div class="icon-badge">🩺</div>
+                                <h3>Find a professional</h3>
+                                <p>Browse demo professionals.</p>
+                            </a>
+                            <a href="appointment.html" class="feature-card">
+                                <div class="icon-badge">📅</div>
+                                <h3>Book appointment</h3>
+                                <p>Schedule a session.</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-secondary" style="margin-top:24px;" onclick="location.reload()">Take another check-in</button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <ul>
+            <li><a href="dashboard.html">🏠<br>Home</a></li>
+            <li><a href="chat.html">💬<br>Chat</a></li>
+            <li><a href="progress.html">📈<br>Progress</a></li>
+            <li><a href="professionals.html">🩺<br>Care</a></li>
+            <li><a href="profile.html">👤<br>Profile</a></li>
+        </ul>
+    </nav>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/stress.js"></script>
+</body>
+
+</html>

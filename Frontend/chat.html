@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat — MindBridge</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/theme.js"></script>
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand-mark" style="justify-content:flex-start;">
+                <div class="logo-icon" style="width:34px;height:34px;font-size:1rem;"><img src="images/logo.png" alt="MindBridge logo" style="width:100%;height:100%;object-fit:contain;"></div><span style="font-size:1.1rem;">MindBridge</span></div>
+            <nav>
+                <a class="nav-link" href="dashboard.html">🏠 Home</a>
+                <a class="nav-link active" href="chat.html">💬 Chat</a>
+                <a class="nav-link" href="stress-check.html">📝 Stress Check</a>
+                <a class="nav-link" href="progress.html">📈 Progress</a>
+                <a class="nav-link" href="wellness-plan.html">🌿 Wellness Plan</a>
+                <a class="nav-link" href="exercise.html">🏃 Exercise</a>
+                <a class="nav-link" href="professionals.html">🩺 Professionals</a>
+                <a class="nav-link" href="appointment.html">📅 Appointments</a>
+                <a class="nav-link" href="profile.html">👤 Profile</a>
+                <a class="nav-link" href="settings.html">⚙️ Settings</a>
+            </nav>
+            <button class="btn btn-secondary btn-block" onclick="logout()">Log out</button>
+        </aside>
+
+        <div style="flex:1;">
+            <div class="topbar-mobile">
+                <div class="brand-mark" style="margin:0;">
+                    <div class="logo-icon" style="width:30px;height:30px;font-size:0.9rem;"><img src="images/logo.png" alt="MindBridge logo" style="width:100%;height:100%;object-fit:contain;"></div><span>MindBridge</span></div>
+                <button class="btn btn-secondary" onclick="logout()">Log out</button>
+            </div>
+
+            <main class="main-content">
+                <h1>MindBridge AI</h1>
+                <p>A supportive space to talk things through. Not a substitute for professional care. <a href="voice-chat.html">Prefer to talk out loud? Try Voice Chat →</a></p>
+
+                <div id="crisisBanner" class="alert alert-error hidden">
+                    It sounds like you might be going through something serious right now.
+                    <a href="emergency.html"><strong>Open Emergency Support →</strong></a>
+                </div>
+
+                <div class="chat-window" id="chatWindow">
+                    <div class="msg msg-ai">Hi, I'm MindBridge AI. What's on your mind today?</div>
+                </div>
+
+                <form class="chat-input-row" id="chatForm">
+                    <input type="text" id="chatInput" placeholder="Type how you're feeling..." autocomplete="off" required>
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </form>
+                <div id="suggestionsRow" style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;"></div>
+            </main>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <ul>
+            <li><a href="dashboard.html">🏠<br>Home</a></li>
+            <li><a class="active" href="chat.html">💬<br>Chat</a></li>
+            <li><a href="progress.html">📈<br>Progress</a></li>
+            <li><a href="professionals.html">🩺<br>Care</a></li>
+            <li><a href="profile.html">👤<br>Profile</a></li>
+        </ul>
+    </nav>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/chat.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments — MindBridge</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/theme.js"></script>
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand-mark" style="justify-content:flex-start;">
+                <div class="logo-icon" style="width:34px;height:34px;font-size:1rem;"><img src="images/logo.png" alt="MindBridge logo" style="width:100%;height:100%;object-fit:contain;"></div><span style="font-size:1.1rem;">MindBridge</span></div>
+            <nav>
+                <a class="nav-link" href="dashboard.html">🏠 Home</a>
+                <a class="nav-link" href="chat.html">💬 Chat</a>
+                <a class="nav-link" href="stress-check.html">📝 Stress Check</a>
+                <a class="nav-link" href="progress.html">📈 Progress</a>
+                <a class="nav-link" href="wellness-plan.html">🌿 Wellness Plan</a>
+                <a class="nav-link" href="exercise.html">🏃 Exercise</a>
+                <a class="nav-link" href="professionals.html">🩺 Professionals</a>
+                <a class="nav-link active" href="appointment.html">📅 Appointments</a>
+                <a class="nav-link" href="profile.html">👤 Profile</a>
+                <a class="nav-link" href="settings.html">⚙️ Settings</a>
+            </nav>
+            <button class="btn btn-secondary btn-block" onclick="logout()">Log out</button>
+        </aside>
+
+        <div style="flex:1;">
+            <div class="topbar-mobile">
+                <div class="brand-mark" style="margin:0;">
+                    <div class="logo-icon" style="width:30px;height:30px;font-size:0.9rem;"><img src="images/logo.png" alt="MindBridge logo" style="width:100%;height:100%;object-fit:contain;"></div><span>MindBridge</span></div>
+                <button class="btn btn-secondary" onclick="logout()">Log out</button>
+            </div>
+
+            <main class="main-content">
+                <h1>Book an Appointment</h1>
+                <span class="badge badge-demo">Demo professionals — for prototype purposes only</span>
+
+                <div class="card" style="margin:20px 0;" id="bookingCard">
+                    <div class="field">
+                        <label for="professionalSelect">Professional</label>
+                        <select id="professionalSelect"></select>
+                    </div>
+                    <div class="grid grid-2">
+                        <div class="field">
+                            <label for="apptDate">Date</label>
+                            <input type="date" id="apptDate">
+                        </div>
+                        <div class="field">
+                            <label for="apptTime">Time slot</label>
+                            <select id="apptTime"></select>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="apptType">Appointment type</label>
+                        <select id="apptType">
+            <option>Video</option><option>In-person</option><option>Phone</option>
+          </select>
+                    </div>
+                    <div id="bookAlert" class="alert alert-error hidden"></div>
+                    <button class="btn btn-primary btn-lg" id="confirmBtn">Confirm Appointment</button>
+                </div>
+
+                <div id="confirmationCard" class="card alert-success hidden" style="margin-bottom:20px;">
+                    <h3>✅ Appointment Confirmed</h3>
+                    <p id="confirmationDetails"></p>
+                </div>
+
+                <h2>Your Appointments</h2>
+                <div id="appointmentsList" class="grid grid-2"></div>
+            </main>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <ul>
+            <li><a href="dashboard.html">🏠<br>Home</a></li>
+            <li><a href="chat.html">💬<br>Chat</a></li>
+            <li><a href="progress.html">📈<br>Progress</a></li>
+            <li><a href="professionals.html">🩺<br>Care</a></li>
+            <li><a href="profile.html">👤<br>Profile</a></li>
+        </ul>
+    </nav>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/appointment.js"></script>
+</body>
+
+</html>

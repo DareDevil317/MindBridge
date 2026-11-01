@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Support — MindBridge</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="auth-shell" style="background: radial-gradient(circle at 20% 20%, #FFF1F3 0%, var(--bg) 55%);">
+        <div class="auth-card" style="max-width:560px;">
+            <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;">
+                    <span class="badge badge-high">Emergency Support</span>
+                    <button class="btn btn-secondary theme-toggle" type="button" data-theme-toggle aria-pressed="false">🌙 Dark mode</button>
+                </div>
+                <h1>You don't have to handle this alone</h1>
+                <p>If you or someone else is in immediate danger, please contact local emergency services right now.</p>
+
+                <div class="alert alert-error">
+                    MindBridge is not able to provide emergency or crisis intervention. If this is an emergency, please call your local emergency number immediately.
+                </div>
+
+                <h3>Right now, you can:</h3>
+                <div class="grid grid-2" style="margin-bottom:10px;">
+                    <a href="tel:112" class="btn btn-danger btn-lg">Call Emergency Services · 112</a>
+                    <a href="professionals.html" class="btn btn-secondary btn-lg">Find a Professional</a>
+                </div>
+                <p class="muted" style="font-size:0.85rem;">
+                    112 is the India emergency number. If you are elsewhere, call your local emergency number.
+                </p>
+
+                <hr class="divider">
+                <h3>Call a trusted person</h3>
+                <p data-emergency-contact-name>No emergency contact saved</p>
+                <a href="#" class="btn btn-secondary hidden" data-emergency-contact-call>Call emergency contact</a>
+                <p class="muted" data-emergency-contact-empty>Add a trusted person in <a href="settings.html">Settings</a> for a one-tap call.</p>
+
+                <hr class="divider">
+                <h3 id="share">Share my location</h3>
+                <p>Sends your current location to your trusted person. Nothing is shared until you tap one of the send buttons, and MindBridge's servers never see your location.</p>
+                <button type="button" class="btn btn-primary" id="shareLocationBtn">📍 Get my location</button>
+                <p class="muted" id="shareStatus" style="margin-top:10px;"></p>
+                <div id="shareActions" class="hidden" style="display:flex; flex-wrap:wrap; gap:10px;">
+                    <a id="shareWhatsApp" class="btn btn-secondary" href="#" target="_blank" rel="noopener">Send on WhatsApp</a>
+                    <a id="shareSms" class="btn btn-secondary" href="#">Send as SMS</a>
+                    <a id="shareMap" class="btn btn-secondary" href="#" target="_blank" rel="noopener">Open in Maps</a>
+                    <button type="button" class="btn btn-secondary" id="shareCopy">Copy message</button>
+                </div>
+
+                <hr class="divider">
+                <h3>Medical and mental health support</h3>
+                <p>Tele-MANAS (India) is available at 14416. Verify and enter a local number in Settings if you are outside India.</p>
+                <a href="#" class="btn btn-primary" data-medical-helpline>Call medical helpline (14416)</a>
+
+                <hr class="divider">
+                <a href="dashboard.html" class="btn btn-secondary btn-block">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+    <script src="js/theme.js"></script>
+    <script src="js/emergency.js"></script>
+</body>
+
+</html>

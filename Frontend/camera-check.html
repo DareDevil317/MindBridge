@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Wellness Check — MindBridge</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/theme.js"></script>
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand-mark" style="justify-content:flex-start;">
+                <div class="logo-icon" style="width:34px;height:34px;font-size:1rem;"><img src="images/logo.png" alt="MindBridge logo" style="width:100%;height:100%;object-fit:contain;"></div><span style="font-size:1.1rem;">MindBridge</span></div>
+            <nav>
+                <a class="nav-link" href="dashboard.html">🏠 Home</a>
+                <a class="nav-link" href="settings.html">⚙️ Settings</a>
+            </nav>
+            <button class="btn btn-secondary btn-block" onclick="logout()">Log out</button>
+        </aside>
+
+        <div style="flex:1;">
+            <div class="topbar-mobile">
+                <div class="brand-mark" style="margin:0;">
+                    <div class="logo-icon" style="width:30px;height:30px;font-size:0.9rem;"><img src="images/logo.png" alt="MindBridge logo" style="width:100%;height:100%;object-fit:contain;"></div><span>MindBridge</span></div>
+                <button class="btn btn-secondary" onclick="logout()">Log out</button>
+            </div>
+
+            <main class="main-content">
+                <h1>Camera Wellness Check <span class="badge badge-demo">Experimental</span></h1>
+                <div class="alert alert-warning">
+                    This is AI-assisted facial expression/wellness signal analysis — <strong>not</strong> a medical assessment. Camera analysis is experimental and should not be considered a diagnosis of any kind. You can skip this entirely.
+                </div>
+
+                <div class="card" style="max-width:520px;">
+                    <div id="cameraFrame" style="width:100%; aspect-ratio:4/3; border-radius:var(--radius-md); border:2px dashed var(--border); display:flex; align-items:center; justify-content:center; background:#F1F3FB; overflow:hidden;">
+                        <video id="video" autoplay playsinline style="width:100%; height:100%; object-fit:cover; display:none;"></video>
+                        <span id="cameraPlaceholder" class="muted">Camera preview will appear here</span>
+                    </div>
+
+                    <div style="display:flex; gap:10px; margin-top:16px;">
+                        <button class="btn btn-primary" id="startCameraBtn">Enable Camera</button>
+                        <button class="btn btn-accent" id="captureBtn" disabled>Capture Sample</button>
+                        <a href="dashboard.html" class="btn btn-secondary">Skip</a>
+                    </div>
+
+                    <div id="analysisResult" class="hidden" style="margin-top:20px;">
+                        <hr class="divider">
+                        <h3>Wellness Signal (Experimental)</h3>
+                        <p id="analysisText"></p>
+                        <p class="muted" style="font-size:0.82rem;">
+                            Your photos are sent to our server, analyzed in memory and not stored. This is an experimental signal, not a medical assessment. Combine it with your stress check-in for a fuller picture.
+                        </p>
+                        <a href="stress-check.html" class="btn btn-primary">Continue to Stress Check</a>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        requireAuthOrRedirect();
+
+        const video = document.getElementById("video");
+        const placeholder = document.getElementById("cameraPlaceholder");
+        const startBtn = document.getElementById("startCameraBtn");
+        const captureBtn = document.getElementById("captureBtn");
+
+        startBtn.addEventListener("click", async() => {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                alert("Camera access isn't supported in this browser.");
+                return;
+            }
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: true
+                });
+                video.srcObject = stream;
+                video.style.display = "block";
+                placeholder.style.display = "none";
+                captureBtn.disabled = false;
+                startBtn.textContent = "Camera Enabled";
+                startBtn.disabled = true;
+            } catch (err) {
+                alert("Camera permission was denied. You can skip this step and use the text-based stress check instead.");
+            }
+        });
+
+        function captureFrames(count, delayMs) {
+            if (!video.videoWidth) {
+                throw new Error("Camera isn't ready yet. Wait a second and try again.");
+            }
+            const canvas = document.createElement("canvas");
+            const scale = Math.min(1, 480 / video.videoWidth);
+            canvas.width = Math.round(video.videoWidth * scale);
+            canvas.height = Math.round(video.videoHeight * scale);
+            const ctx = canvas.getContext("2d");
+            const frames = [];
+            return new Promise((resolve) => {
+                const timer = setInterval(() => {
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    frames.push(canvas.toDataURL("image/jpeg", 0.8));
+                    if (frames.length >= count) {
+                        clearInterval(timer);
+                        resolve(frames);
+                    }
+                }, delayMs);
+            });
+        }
+
+        captureBtn.addEventListener("click", async() => {
+            const resultBox = document.getElementById("analysisResult");
+            const text = document.getElementById("analysisText");
+            captureBtn.disabled = true;
+            captureBtn.textContent = "Analyzing...";
+            resultBox.classList.remove("hidden");
+            text.textContent = "Taking a few frames. Please look at the camera and stay still for 2 seconds...";
+
+            try {
+                const images = await captureFrames(5, 400);
+                text.textContent = "Analyzing your expression...";
+                const result = await apiRequest("/face/analyze", {
+                    method: "POST",
+                    body: {
+                        images
+                    }
+                });
+                text.textContent = `${result.signal}: ${result.message}`;
+                const stream = video.srcObject;
+                if (stream) stream.getTracks().forEach((t) => t.stop());
+                captureBtn.textContent = "Done";
+            } catch (err) {
+                text.textContent = err.message;
+                captureBtn.disabled = false;
+                captureBtn.textContent = "Capture Sample";
+            }
+        });
+    </script>
+</body>
+
+</html>

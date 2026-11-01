@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindBridge — Your Mind. Our Support.</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/theme.js"></script>
+    <style>
+        .splash {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(180deg, #EEF2FF 0%, #F8FAFC 55%, #ECFDF5 100%);
+            padding: 24px;
+        }
+        
+        .splash .logo-icon {
+            width: 84px;
+            height: 84px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 2.4rem;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .splash h1 {
+            font-size: 2.3rem;
+            margin-bottom: 6px;
+        }
+        
+        .splash .tagline {
+            color: var(--primary-dark);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .splash .sub {
+            color: var(--text-muted);
+            margin-bottom: 34px;
+        }
+        
+        .loading-bar {
+            width: 180px;
+            height: 6px;
+            border-radius: 999px;
+            background: #E4E9F2;
+            overflow: hidden;
+        }
+        
+        .loading-bar span {
+            display: block;
+            height: 100%;
+            width: 40%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            animation: loadmove 1.1s ease-in-out infinite;
+        }
+        
+        @keyframes loadmove {
+            0% {
+                margin-left: -40%;
+            }
+            100% {
+                margin-left: 100%;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .loading-bar span {
+                animation: none;
+                margin-left: 0;
+                width: 70%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="splash">
+        <div class="logo-icon" aria-hidden="true"><img src="images/logo.png" alt="MindBridge logo" style="width:100%;height:100%;object-fit:contain;"></div>
+        <h1>MindBridge</h1>
+        <p class="tagline">Your Mind. Our Support.</p>
+        <p class="sub">Small steps today. Better tomorrow.</p>
+        <div class="loading-bar" role="status" aria-label="Loading MindBridge"><span></span></div>
+    </div>
+
+    <script>
+        // Route the user based on what they've already completed.
+        setTimeout(() => {
+            const acceptedTerms = localStorage.getItem("mb_terms_accepted") === "true";
+            const token = localStorage.getItem("mb_token");
+            if (token) {
+                window.location.href = "dashboard.html";
+            } else if (acceptedTerms) {
+                window.location.href = "login.html";
+            } else {
+                window.location.href = "terms.html";
+            }
+        }, 1400);
+    </script>
+</body>
+
+</html>

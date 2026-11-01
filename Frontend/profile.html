@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile — MindBridge</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/theme.js"></script>
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand-mark" style="justify-content:flex-start;">
+                <div class="logo-icon" style="width:34px;height:34px;font-size:1rem;"><img src="images/logo.png" alt="MindBridge logo" style="width:100%;height:100%;object-fit:contain;"></div><span style="font-size:1.1rem;">MindBridge</span></div>
+            <nav>
+                <a class="nav-link" href="dashboard.html">🏠 Home</a>
+                <a class="nav-link" href="chat.html">💬 Chat</a>
+                <a class="nav-link" href="stress-check.html">📝 Stress Check</a>
+                <a class="nav-link" href="progress.html">📈 Progress</a>
+                <a class="nav-link" href="wellness-plan.html">🌿 Wellness Plan</a>
+                <a class="nav-link" href="exercise.html">🏃 Exercise</a>
+                <a class="nav-link" href="professionals.html">🩺 Professionals</a>
+                <a class="nav-link" href="appointment.html">📅 Appointments</a>
+                <a class="nav-link active" href="profile.html">👤 Profile</a>
+                <a class="nav-link" href="settings.html">⚙️ Settings</a>
+            </nav>
+            <button class="btn btn-secondary btn-block" onclick="logout()">Log out</button>
+        </aside>
+
+        <div style="flex:1;">
+            <div class="topbar-mobile">
+                <div class="brand-mark" style="margin:0;">
+                    <div class="logo-icon" style="width:30px;height:30px;font-size:0.9rem;"><img src="images/logo.png" alt="MindBridge logo" style="width:100%;height:100%;object-fit:contain;"></div><span>MindBridge</span></div>
+                <button class="btn btn-secondary" onclick="logout()">Log out</button>
+            </div>
+
+            <main class="main-content">
+                <h1 id="pageTitle">Your Profile</h1>
+                <p id="pageSubtitle">Tell us a little more so MindBridge can personalize your experience.</p>
+
+                <div class="card" style="max-width:640px;">
+                    <div style="display:flex; align-items:center; gap:14px; margin-bottom:20px;">
+                        <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.4rem;" id="avatarInitial">?</div>
+                        <div>
+                            <div style="font-weight:600;" id="displayName">—</div>
+                            <div class="muted" id="displayEmail">—</div>
+                        </div>
+                    </div>
+
+                    <form id="profileForm">
+                        <div class="field">
+                            <label for="course_or_job">Course / Job title</label>
+                            <input type="text" id="course_or_job" placeholder="e.g. BCA student, Software Engineer">
+                        </div>
+                        <div class="field">
+                            <label for="interests">Interests (comma-separated)</label>
+                            <input type="text" id="interests" placeholder="e.g. music, cricket, reading">
+                        </div>
+                        <div class="field">
+                            <label for="daily_routine">Daily routine</label>
+                            <textarea id="daily_routine" rows="2" placeholder="A quick note on your typical day"></textarea>
+                        </div>
+                        <div class="grid grid-2">
+                            <div class="field">
+                                <label for="sleep_hours">Average sleep hours</label>
+                                <input type="number" id="sleep_hours" min="0" max="24" step="0.5">
+                            </div>
+                            <div class="field">
+                                <label for="exercise_frequency">Exercise frequency</label>
+                                <select id="exercise_frequency">
+                <option value="never">Never</option><option value="rarely">Rarely</option>
+                <option value="sometimes">Sometimes</option><option value="often">Often</option><option value="daily">Daily</option>
+              </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="wellness_goals">Wellness goals (comma-separated)</label>
+                            <input type="text" id="wellness_goals" placeholder="e.g. sleep better, reduce exam stress">
+                        </div>
+                        <div id="profileAlert" class="alert alert-success hidden"></div>
+                        <button type="submit" class="btn btn-primary btn-lg">Save Profile</button>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <ul>
+            <li><a href="dashboard.html">🏠<br>Home</a></li>
+            <li><a href="chat.html">💬<br>Chat</a></li>
+            <li><a href="progress.html">📈<br>Progress</a></li>
+            <li><a href="professionals.html">🩺<br>Care</a></li>
+            <li><a class="active" href="profile.html">👤<br>Profile</a></li>
+        </ul>
+    </nav>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        requireAuthOrRedirect();
+
+        const user = getUser();
+        if (user) {
+            document.getElementById("displayName").textContent = user.full_name;
+            document.getElementById("displayEmail").textContent = user.email;
+            document.getElementById("avatarInitial").textContent = user.full_name.charAt(0).toUpperCase();
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("setup") === "1") {
+            document.getElementById("pageTitle").textContent = "Set Up Your Profile";
+            document.getElementById("pageSubtitle").textContent = "Welcome to MindBridge! Let's personalize your experience — you can always edit this later.";
+        }
+
+        async function loadProfile() {
+            try {
+                const profile = await apiRequest("/profile");
+                document.getElementById("course_or_job").value = profile.course_or_job || "";
+                document.getElementById("interests").value = (profile.interests || []).join(", ");
+                document.getElementById("daily_routine").value = profile.daily_routine || "";
+                document.getElementById("sleep_hours").value = profile.sleep_hours || "";
+                document.getElementById("exercise_frequency").value = profile.exercise_frequency || "sometimes";
+                document.getElementById("wellness_goals").value = (profile.wellness_goals || []).join(", ");
+            } catch (_) { /* new profile, nothing to load yet */ }
+        }
+
+        document.getElementById("profileForm").addEventListener("submit", async(e) => {
+            e.preventDefault();
+            const alertBox = document.getElementById("profileAlert");
+            const toList = (v) => v.split(",").map((s) => s.trim()).filter(Boolean);
+
+            const payload = {
+                course_or_job: document.getElementById("course_or_job").value || null,
+                interests: toList(document.getElementById("interests").value),
+                daily_routine: document.getElementById("daily_routine").value || null,
+                sleep_hours: document.getElementById("sleep_hours").value ? parseFloat(document.getElementById("sleep_hours").value) : null,
+                exercise_frequency: document.getElementById("exercise_frequency").value,
+                wellness_goals: toList(document.getElementById("wellness_goals").value),
+            };
+
+            try {
+                await apiRequest("/profile", {
+                    method: "PUT",
+                    body: payload
+                });
+                alertBox.className = "alert alert-success";
+                alertBox.textContent = "Profile saved.";
+                alertBox.classList.remove("hidden");
+                if (params.get("setup") === "1") {
+                    setTimeout(() => (window.location.href = "dashboard.html"), 900);
+                }
+            } catch (err) {
+                alertBox.className = "alert alert-error";
+                alertBox.textContent = err.message;
+                alertBox.classList.remove("hidden");
+            }
+        });
+
+        loadProfile();
+    </script>
+</body>
+
+</html>

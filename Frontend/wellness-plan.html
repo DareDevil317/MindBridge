@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellness Plan — MindBridge</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/theme.js"></script>
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand-mark" style="justify-content:flex-start;">
+                <div class="logo-icon" style="width:34px;height:34px;font-size:1rem;"><img src="images/logo.png" alt="MindBridge logo" style="width:100%;height:100%;object-fit:contain;"></div><span style="font-size:1.1rem;">MindBridge</span></div>
+            <nav>
+                <a class="nav-link" href="dashboard.html">🏠 Home</a>
+                <a class="nav-link" href="chat.html">💬 Chat</a>
+                <a class="nav-link" href="stress-check.html">📝 Stress Check</a>
+                <a class="nav-link" href="progress.html">📈 Progress</a>
+                <a class="nav-link active" href="wellness-plan.html">🌿 Wellness Plan</a>
+                <a class="nav-link" href="exercise.html">🏃 Exercise</a>
+                <a class="nav-link" href="professionals.html">🩺 Professionals</a>
+                <a class="nav-link" href="appointment.html">📅 Appointments</a>
+                <a class="nav-link" href="profile.html">👤 Profile</a>
+                <a class="nav-link" href="settings.html">⚙️ Settings</a>
+            </nav>
+            <button class="btn btn-secondary btn-block" onclick="logout()">Log out</button>
+        </aside>
+
+        <div style="flex:1;">
+            <div class="topbar-mobile">
+                <div class="brand-mark" style="margin:0;">
+                    <div class="logo-icon" style="width:30px;height:30px;font-size:0.9rem;"><img src="images/logo.png" alt="MindBridge logo" style="width:100%;height:100%;object-fit:contain;"></div><span>MindBridge</span></div>
+                <button class="btn btn-secondary" onclick="logout()">Log out</button>
+            </div>
+
+            <main class="main-content">
+                <h1>Your Wellness Plan — Today</h1>
+                <p>A simple plan based on your goals and recent check-ins. Adjust it any way that fits your day.</p>
+                <div id="planList" class="grid grid-2"></div>
+            </main>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <ul>
+            <li><a href="dashboard.html">🏠<br>Home</a></li>
+            <li><a href="chat.html">💬<br>Chat</a></li>
+            <li><a href="progress.html">📈<br>Progress</a></li>
+            <li><a href="professionals.html">🩺<br>Care</a></li>
+            <li><a href="profile.html">👤<br>Profile</a></li>
+        </ul>
+    </nav>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        requireAuthOrRedirect();
+
+        async function loadPlan() {
+            const list = document.getElementById("planList");
+            try {
+                const plan = await apiRequest("/wellness-plan");
+                renderPlan(plan.items);
+            } catch (err) {
+                list.innerHTML = `<p class="muted">${err.message}</p>`;
+            }
+        }
+
+        function renderPlan(items) {
+            const list = document.getElementById("planList");
+            list.innerHTML = items.map((item, idx) => `
+    <div class="card">
+      <span class="badge badge-moderate">${item.time_of_day}</span>
+      <h3 style="margin-top:8px; ${item.done ? "text-decoration:line-through; color:var(--text-muted);" : ""}">${item.activity}</h3>
+      <div style="display:flex; gap:8px; margin-top:10px;">
+        <button class="btn ${item.done ? "btn-secondary" : "btn-accent"}" onclick="toggleItem(${idx})">
+          ${item.done ? "Mark Incomplete" : "Mark Complete"}
+        </button>
+        <button class="btn btn-secondary" onclick="skipItem(${idx})">Skip</button>
+      </div>
+    </div>
+  `).join("");
+        }
+
+        let currentItems = [];
+        async function toggleItem(idx) {
+            const plan = await apiRequest("/wellness-plan");
+            currentItems = plan.items;
+            currentItems[idx].done = !currentItems[idx].done;
+            await apiRequest("/wellness-plan", {
+                method: "POST",
+                body: currentItems
+            });
+            renderPlan(currentItems);
+        }
+        async function skipItem(idx) {
+            const plan = await apiRequest("/wellness-plan");
+            currentItems = plan.items;
+            currentItems[idx].activity = currentItems[idx].activity + " (skipped)";
+            await apiRequest("/wellness-plan", {
+                method: "POST",
+                body: currentItems
+            });
+            renderPlan(currentItems);
+        }
+
+        loadPlan();
+    </script>
+</body>
+
+</html>
