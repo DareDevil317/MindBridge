@@ -28,9 +28,9 @@ Python, FastAPI, PostgreSQL (SQLAlchemy), Gemini API, DeepFace, NumPy, HTML/CSS/
 
 ## AWS deployment
 - Region: Asia Pacific (Sydney)
-- Amazon EC2 (Ubuntu, YOUR-INSTANCE-TYPE) runs nginx (static frontend and `/api` reverse proxy), the FastAPI backend as a systemd service, and PostgreSQL
+- Amazon EC2 (Ubuntu, c7i-flex.large) runs nginx (static frontend and `/api` reverse proxy), the FastAPI backend as a systemd service, and PostgreSQL
 - HTTPS: Let's Encrypt certificate issued with certbot on nginx, served from the sslip.io hostname for the instance's public IP
-- Face analysis is turned off in the deployed build (`FACE_ENABLED=false`) because the free-tier server is too small to run TensorFlow. The code is in the repo and works locally.
+- Face analysis is turned off in the deployed build (`FACE_ENABLED=false`) to keep the deployment lightweight. The code is in the repo and works locally.
 - Live link: https://15-134-139-85.sslip.io
 
 ## Setup and usage (local)
